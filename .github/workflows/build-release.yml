@@ -1,9 +1,16 @@
-name: Build & Release
+name: Release
 on: [ push,pull_request ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  release:
+    env:
+      GO111MODULE: on
+      GOPROXY: https://goproxy.io,direct
+    strategy:
+      matrix:
+        go-version: [ ^1.15 ]
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout source code
@@ -12,14 +19,19 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: ^1.15
+          go-version: ${{ matrix.go-version }}
       - run: go version
 
-      - name: Go mod
+      - name: Go mod download
+        run: go mod download
+
+      - name: Build
         run: |
-          go env -w GO111MODULE=on
-          go env -w GOPROXY=https://goproxy.io,direct
-          go mod download
+          go build -ldflags "-s -w" -o jd_seckill
+
+      - name: Gzip
+          run: |
+            tar -czvf jd_seckill-${{ matrix.os }}.tar.gz jd_seckill-${{ matrix.os }}
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
