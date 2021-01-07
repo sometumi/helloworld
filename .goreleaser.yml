@@ -11,7 +11,7 @@ builds:
       - CGO_ENABLED=0
       - GO111MODULE=on
       - GOPROXY=https://goproxy.io,direct
-    binary: jk_rose
+    binary: jd_seckill
     ldflags:
       - -s -w
     goos:
