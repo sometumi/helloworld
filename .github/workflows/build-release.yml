@@ -1,4 +1,4 @@
-name: Build & Deploy
+name: Build & Release
 on:
   push:
     branches:
@@ -27,7 +27,7 @@ jobs:
           go mod download
 
       - name: Run GoReleaser
-          uses: goreleaser/goreleaser-action@v2
+      - uses: goreleaser/goreleaser-action@v2
           with:
             version: latest
             args: release --rm-dist
