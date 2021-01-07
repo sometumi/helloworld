@@ -14,6 +14,7 @@ jobs:
         run: |
           git config --global user.name 'robot'
           git config --global user.email 'robot@gmail.com'
+          git pull --unshallow
           # 添加一个将被同步给 fork 远程的上游仓库
           git remote add upstream https://github.com/ztino/helloworld.git
           # 从上游仓库 fetch 分支和提交点，传送到本地，并会被存储在一个本地分支 upstream/master
