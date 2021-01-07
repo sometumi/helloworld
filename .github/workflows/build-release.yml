@@ -29,10 +29,6 @@ jobs:
         run: |
           go build -ldflags "-s -w" -o jd_seckill
 
-      - name: Gzip
-          run: |
-            tar -czvf jd_seckill-${{ matrix.os }}.tar.gz jd_seckill-${{ matrix.os }}
-
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
